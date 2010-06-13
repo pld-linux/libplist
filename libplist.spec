@@ -1,13 +1,13 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	1.2
+Version:	1.3
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://cloud.github.com/downloads/JonathanBeck/libplist/%{name}-%{version}.tar.bz2
-# Source0-md5:	a29e98e51977253f09a912c942f37a68
-URL:		http://matt.colyer.name/projects/iphone-linux/
+# Source0-md5:	0f48f4da8ddba5d7e186307622bf2c62
+URL:		http://www.libimobiledevice.org/
 BuildRequires:	cmake >= 2.6
 BuildRequires:	glib2-devel >= 1:2.14.1
 BuildRequires:	libxml2-devel >= 1:2.6.30
