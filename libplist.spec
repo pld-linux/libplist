@@ -10,9 +10,12 @@ Source0:	http://cloud.github.com/downloads/JonathanBeck/libplist/%{name}-%{versi
 URL:		http://www.libimobiledevice.org/
 BuildRequires:	cmake >= 2.8.2-2
 BuildRequires:	glib2-devel >= 1:2.14.1
+BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel >= 1:2.6.30
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 BuildRequires:	swig-python
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
