@@ -1,8 +1,13 @@
+#
+# Conditional build:
+%bcond_without	swig	# build with Swig
+%bcond_without	cython	# build with Cython
+
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	1.8
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
@@ -13,10 +18,12 @@ BuildRequires:	glib2-devel >= 1:2.14.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel >= 1:2.6.30
 BuildRequires:	pkgconfig
+%{?with_cython:BuildRequires:	python-Cython}
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	swig-python
+BuildRequires:	rpmbuild(macros) >= 1.600
+%{?with_swig:BuildRequires:	swig-python}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -59,8 +66,8 @@ Wiązania libplist dla Pythona.
 install -d build
 cd build
 %cmake \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
+	-DENABLE_SWIG=%{!?with_swig:NO}%{?with_swig:YES} \
+	-DENABLE_CYTHON=%{!?with_cython:NO}%{?with_cython:YES} \
 	../
 
 %{__make}
@@ -74,6 +81,14 @@ rm -rf $RPM_BUILD_ROOT
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
+
+# cmake sucks, fix perms
+%if %{with cython}
+chmod a+x $RPM_BUILD_ROOT%{py_sitedir}/plist.so
+%endif
+%if %{with swig}
+chmod a+x $RPM_BUILD_ROOT%{py_sitedir}/plist/_plist.so
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,8 +113,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libplist++.pc
 %{_pkgconfigdir}/libplist.pc
 
+%if %{with cython} || %{with swig}
 %files -n python-plist
 %defattr(644,root,root,755)
+%if %{with cython}
+%attr(755,root,root) %{py_sitedir}/plist.so
+%endif
+%if %{with swig}
 %dir %{py_sitedir}/plist
 %attr(755,root,root) %{py_sitedir}/plist/_plist.so
 %{py_sitedir}/plist/*.py[co]
+%endif
+%endif
