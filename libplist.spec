@@ -7,9 +7,10 @@ Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	1.8
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
+#Source0-Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
 # Source0-md5:	2a9e0258847d50f9760dc3ece25f4dc6
 URL:		http://www.libimobiledevice.org/
@@ -52,6 +53,7 @@ Pliki nagłówkowe biblioteki libplist.
 Summary:	libplist Python bindings
 Summary(pl.UTF-8):	Wiązania libplist dla Pythona
 Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
 
 %description -n python-plist
 libplist Python bindings.
@@ -98,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS README
+%doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/plutil*
 %attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libplist++.so.1
