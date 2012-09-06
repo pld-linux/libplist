@@ -121,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %if %{with cython}
 %attr(755,root,root) %{py_sitedir}/plist.so
-%attr(755,root,root) %{py_sitedir}/plist.pxd
+%{py_sitedir}/plist.pxd
 %endif
 %if %{with swig}
 %dir %{py_sitedir}/plist
