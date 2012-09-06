@@ -7,7 +7,7 @@ Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	1.8
-Release:	3
+Release:	4
 License:	LGPL v2+
 Group:		Libraries
 #Source0-Download: http://www.libimobiledevice.org/
@@ -87,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 # cmake sucks, fix perms
 %if %{with cython}
 chmod a+x $RPM_BUILD_ROOT%{py_sitedir}/plist.so
+cp -p cython/plist.pxd $RPM_BUILD_ROOT%{py_sitedir}
 %endif
 %if %{with swig}
 chmod a+x $RPM_BUILD_ROOT%{py_sitedir}/plist/_plist.so
@@ -120,6 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %if %{with cython}
 %attr(755,root,root) %{py_sitedir}/plist.so
+%attr(755,root,root) %{py_sitedir}/plist.pxd
 %endif
 %if %{with swig}
 %dir %{py_sitedir}/plist
