@@ -1,18 +1,31 @@
+# TODO
+# - python bindings fail in both cython and swig mode:
+#   $ python -c "import plist" # cython
+#   Traceback (most recent call last):
+#    File "<string>", line 1, in <module>
+#   ImportError: dynamic module does not define init function (initplist)
+#  $ python -c "import plist" # swig
+#  Traceback (most recent call last):
+#    File "<string>", line 1, in <module>
+#    File "/usr/lib64/python2.7/site-packages/plist/__init__.py", line 3, in <module>
+#    File "/usr/lib64/python2.7/site-packages/plist/plist.py", line 26, in <module>
+#    File "/usr/lib64/python2.7/site-packages/plist/plist.py", line 22, in swig_import_helper
+#  ImportError: dynamic module does not define init function (init_plist)
 #
 # Conditional build:
-%bcond_without	swig	# build with Swig
+%bcond_with		swig	# build with Swig
 %bcond_without	cython	# build with Cython
 
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	1.8
-Release:	4
+Version:	1.10
+Release:	0.2
 License:	LGPL v2+
 Group:		Libraries
-#Source0-Download: http://www.libimobiledevice.org/
+# Source0Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
-# Source0-md5:	2a9e0258847d50f9760dc3ece25f4dc6
+# Source0-md5:	fe642d0c8602d70c408994555c330dd1
 URL:		http://www.libimobiledevice.org/
 BuildRequires:	cmake >= 2.8.2-2
 BuildRequires:	glib2-devel >= 1:2.14.1
@@ -64,6 +77,8 @@ Wiązania libplist dla Pythona.
 %prep
 %setup -q
 
+touch cython/*.py[xh]
+
 %build
 install -d build
 cd build
@@ -102,7 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README
-%attr(755,root,root) %{_bindir}/plutil*
+%attr(755,root,root) %{_bindir}/plistutil*
 %attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libplist++.so.1
 %attr(755,root,root) %{_libdir}/libplist.so.*.*.*
@@ -119,13 +134,16 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with cython} || %{with swig}
 %files -n python-plist
 %defattr(644,root,root,755)
+
 %if %{with cython}
 %attr(755,root,root) %{py_sitedir}/plist.so
 %{py_sitedir}/plist.pxd
 %endif
+
 %if %{with swig}
 %dir %{py_sitedir}/plist
 %attr(755,root,root) %{py_sitedir}/plist/_plist.so
 %{py_sitedir}/plist/*.py[co]
 %endif
+
 %endif
