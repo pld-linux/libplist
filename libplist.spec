@@ -13,7 +13,7 @@
 #  ImportError: dynamic module does not define init function (init_plist)
 #
 # Conditional build:
-%bcond_with		swig	# build with Swig
+%bcond_with	swig	# build with Swig
 %bcond_without	cython	# build with Cython
 
 Summary:	Library for manipulating Apple Property Lists
