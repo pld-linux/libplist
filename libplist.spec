@@ -1,6 +1,7 @@
 # TODO
 # - python3 package
 # - split C++ lib?
+# - fix python binding linking against system pkg vs currently built
 #
 # Conditional build:
 %bcond_without	cython	# build with Cython
@@ -25,6 +26,7 @@ BuildRequires:	python-Cython
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
+BuildConflicts:	libplist-devel
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
