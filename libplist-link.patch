@@ -1,3 +1,6 @@
+upstream:
+https://github.com/libimobiledevice/libplist/pull/71
+
 --- libplist-1.11/cython/Makefile.am.orig	2013-12-13 00:46:18.000000000 +0100
 +++ libplist-1.11/cython/Makefile.am	2016-01-20 21:54:30.895444952 +0100
 @@ -20,7 +20,7 @@
