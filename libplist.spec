@@ -92,7 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 %py_postclean
 
 %if %{with cython}
-cp -p cython/plist.pxd $RPM_BUILD_ROOT%{py_sitedir}
+install -d $RPM_BUILD_ROOT%{_includedir}/plist/cython
+cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/plist.la
 %endif
 
@@ -123,5 +124,4 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python-plist
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/plist.so
-%{py_sitedir}/plist.pxd
 %endif
