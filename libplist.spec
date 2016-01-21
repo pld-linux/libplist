@@ -1,6 +1,5 @@
 # TODO
 # - python3 package
-# - split C++ lib?
 #
 # Conditional build:
 %bcond_without	cython		# build with Cython
@@ -10,8 +9,8 @@ Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	1.11
-Release:	1
-License:	LGPL v2+
+Release:	2
+License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
@@ -43,17 +42,17 @@ Biblioteka do manipulowania Apple Property Lists w formacie binarnym i
 XML.
 
 %package devel
-Summary:	Header files for libplist library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libplist
+Summary:	Header file for libplist library
+Summary(pl.UTF-8):	Plik nagłówkowy biblioteki libplist
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libxml2-devel >= 1:2.7.8
 
 %description devel
-Header files for libplist library.
+Header file for libplist library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki libplist.
+Plik nagłówkowy biblioteki libplist.
 
 %package static
 Summary:	Static libplist library
@@ -67,6 +66,44 @@ Static libplist library.
 %description static -l pl.UTF-8
 Statyczna biblioteka libplist.
 
+%package c++
+Summary:	C++ binding for libplist library
+Summary(pl.UTF-8):	Wiązanie C++ do biblioteki libplist
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description c++
+C++ binding for libplist library.
+
+%description c++ -l pl.UTF-8
+Wiązanie C++ do biblioteki libplist.
+
+%package c++-devel
+Summary:	Header files for libplist++ library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libplist++
+Group:		Development/Libraries
+Requires:	%{name}-c++ = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	libstdc++-devel
+
+%description c++-devel
+Header files for libplist++ library.
+
+%description c++-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libplist++.
+
+%package c++-static
+Summary:	Static libplist++ library
+Summary(pl.UTF-8):	Statyczna biblioteka libplist++
+Group:		Development/Libraries
+Requires:	%{name}-c++-devel = %{version}-%{release}
+
+%description c++-static
+Static libplist++ library.
+
+%description c++-static -l pl.UTF-8
+Statyczna biblioteka libplist++.
+
 %package -n python-plist
 Summary:	libplist Python bindings
 Summary(pl.UTF-8):	Wiązania libplist dla Pythona
@@ -78,6 +115,20 @@ libplist Python bindings.
 
 %description -n python-plist -l pl.UTF-8
 Wiązania libplist dla Pythona.
+
+%package -n python-plist-devel
+Summary:	Cython header file for Python libplist binding
+Summary(pl.UTF-8):	Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	python-Cython >= 0.17.0
+Requires:	python-plist = %{version}-%{release}
+
+%description -n python-plist-devel
+Cython header file for Python libplist binding.
+
+%description -n python-plist-devel -l pl.UTF-8
+Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist.
 
 %prep
 %setup -q
@@ -125,32 +176,64 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
+%post	c++ -p /sbin/ldconfig
+%postun	c++ -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/plistutil
-%attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist++.so.2
 %attr(755,root,root) %{_libdir}/libplist.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libplist.so.2
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libplist++.so
 %attr(755,root,root) %{_libdir}/libplist.so
-%{_includedir}/plist
-%{_pkgconfigdir}/libplist++.pc
+%dir %{_includedir}/plist
+%{_includedir}/plist/plist.h
 %{_pkgconfigdir}/libplist.pc
 
 %if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libplist++.a
 %{_libdir}/libplist.a
+%endif
+
+%files c++
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libplist++.so.2
+
+%files c++-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libplist++.so
+%{_includedir}/plist/Array.h
+%{_includedir}/plist/Boolean.h
+%{_includedir}/plist/Data.h
+%{_includedir}/plist/Date.h
+%{_includedir}/plist/Dictionary.h
+%{_includedir}/plist/Integer.h
+%{_includedir}/plist/Key.h
+%{_includedir}/plist/Node.h
+%{_includedir}/plist/Real.h
+%{_includedir}/plist/String.h
+%{_includedir}/plist/Structure.h
+%{_includedir}/plist/Uid.h
+%{_includedir}/plist/plist++.h
+%{_pkgconfigdir}/libplist++.pc
+
+%if %{with static_libs}
+%files c++-static
+%defattr(644,root,root,755)
+%{_libdir}/libplist++.a
 %endif
 
 %if %{with cython}
 %files -n python-plist
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/plist.so
+
+%files -n python-plist-devel
+%defattr(644,root,root,755)
+%{_includedir}/plist/cython
 %endif
