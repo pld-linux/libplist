@@ -8,13 +8,13 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	1.11
-Release:	2
+Version:	1.12
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
-# Source0-md5:	82de65f38cb2f0a9fd0839679b46072b
+# Source0-md5:	8b04b0f09f2398022dcd4fba75012997
 Patch0:		%{name}-link.patch
 URL:		http://www.libimobiledevice.org/
 BuildRequires:	autoconf >= 2.61
@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/plistutil
 %attr(755,root,root) %{_libdir}/libplist.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist.so.2
+%attr(755,root,root) %ghost %{_libdir}/libplist.so.3
 
 %files devel
 %defattr(644,root,root,755)
@@ -202,7 +202,7 @@ rm -rf $RPM_BUILD_ROOT
 %files c++
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist++.so.2
+%attr(755,root,root) %ghost %{_libdir}/libplist++.so.3
 
 %files c++-devel
 %defattr(644,root,root,755)

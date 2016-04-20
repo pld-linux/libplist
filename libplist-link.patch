@@ -1,14 +1,14 @@
 upstream:
 https://github.com/libimobiledevice/libplist/pull/71
 
---- libplist-1.11/cython/Makefile.am.orig	2013-12-13 00:46:18.000000000 +0100
-+++ libplist-1.11/cython/Makefile.am	2016-01-20 21:54:30.895444952 +0100
+--- libplist-1.12/cython/Makefile.am~	2014-10-14 03:44:57.000000000 +0300
++++ libplist-1.12/cython/Makefile.am	2016-04-20 09:38:19.652841266 +0300
 @@ -20,7 +20,7 @@
  plist_LTLIBRARIES = plist.la
  plist_la_SOURCES = plist_util.c plist_util.h plist.pyx
- plist_la_CFLAGS = -I../include -I../src $(PYTHON_CPPFLAGS) $(AM_CFLAGS) -Wno-shadow -Wno-redundant-decls -Wno-switch-default -Wno-strict-aliasing -Wno-implicit-function-declaration
+ plist_la_CFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src $(PYTHON_CPPFLAGS) $(AM_CFLAGS) -Wno-shadow -Wno-redundant-decls -Wno-switch-default -Wno-strict-aliasing -Wno-implicit-function-declaration -fvisibility=default
 -plist_la_LDFLAGS = -module -avoid-version -L$(libdir) $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
 +plist_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
- plist_la_LIBADD = ../src/libplist.la
+ plist_la_LIBADD = $(top_builddir)/src/libplist.la
  
  plist.c: plist.pyx $(PXDINCLUDES) $(PXIINCLUDES)
