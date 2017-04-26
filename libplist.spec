@@ -8,20 +8,18 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	1.12
+Version:	2.0.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
-# Source0-md5:	8b04b0f09f2398022dcd4fba75012997
-Patch0:		%{name}-link.patch
+# Source0-md5:	16fb70d869f66e23cbe140109e78b650
 URL:		http://www.libimobiledevice.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel >= 1:2.7.8
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.600
 %if %{with cython}
@@ -30,7 +28,6 @@ BuildRequires:	python-devel >= 1:2.3
 BuildRequires:	python-modules >= 1:2.3
 BuildRequires:	rpm-pythonprov
 %endif
-Requires:	libxml2 >= 1:2.7.8
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -46,7 +43,6 @@ Summary:	Header file for libplist library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki libplist
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libxml2-devel >= 1:2.7.8
 
 %description devel
 Header file for libplist library.
@@ -132,7 +128,6 @@ Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist.
 
 %prep
 %setup -q
-%patch0 -p1
 
 touch cython/*.py[xh]
 
