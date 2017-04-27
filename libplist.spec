@@ -1,22 +1,24 @@
-# TODO
-# - python3 package
 #
 # Conditional build:
-%bcond_without	cython		# build with Cython
+%bcond_without	cython		# Python modules (Cython based)
+%bcond_without	python3		# Python 3 module
 %bcond_without	static_libs	# static libraries
 
+%if %{without cython}
+%undefine	with_python3
+%endif
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	2.0.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: http://www.libimobiledevice.org/
 Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
 # Source0-md5:	16fb70d869f66e23cbe140109e78b650
 URL:		http://www.libimobiledevice.org/
-BuildRequires:	autoconf >= 2.61
+BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
@@ -26,6 +28,11 @@ BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	python-Cython >= 0.17.0
 BuildRequires:	python-devel >= 1:2.3
 BuildRequires:	python-modules >= 1:2.3
+%if %{with python3}
+BuildRequires:	python3-Cython >= 0.17.0
+BuildRequires:	python3-devel >= 1:3.2
+BuildRequires:	python3-modules >= 1:3.2
+%endif
 BuildRequires:	rpm-pythonprov
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -101,16 +108,28 @@ Static libplist++ library.
 Statyczna biblioteka libplist++.
 
 %package -n python-plist
-Summary:	libplist Python bindings
-Summary(pl.UTF-8):	Wiązania libplist dla Pythona
+Summary:	Python 2 bindings for libplist
+Summary(pl.UTF-8):	Wiązania libplist dla Pythona 2
 Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python-plist
-libplist Python bindings.
+Python 2 bindings for libplist.
 
 %description -n python-plist -l pl.UTF-8
-Wiązania libplist dla Pythona.
+Wiązania libplist dla Pythona 2.
+
+%package -n python3-plist
+Summary:	Python 3 bindings for libplist
+Summary(pl.UTF-8):	Wiązania libplist dla Pythona 3
+Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python3-plist
+Python 3 bindings for libplist.
+
+%description -n python3-plist -l pl.UTF-8
+Wiązania libplist dla Pythona 3.
 
 %package -n python-plist-devel
 Summary:	Cython header file for Python libplist binding
@@ -118,7 +137,6 @@ Summary(pl.UTF-8):	Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	python-Cython >= 0.17.0
-Requires:	python-plist = %{version}-%{release}
 
 %description -n python-plist-devel
 Cython header file for Python libplist binding.
@@ -137,7 +155,9 @@ touch cython/*.py[xh]
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%configure \
+install -d build
+cd build
+../%configure \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
 	%{!?with_cython:--without-cython}
@@ -145,10 +165,24 @@ touch cython/*.py[xh]
 # make -j1 due:
 # make[2]: *** No rule to make target '../src/libplist.la', needed by 'libplist++.la'.  Stop.
 %{__make} -j1
+cd ..
+
+%if %{with python3}
+topdir=$(pwd)
+install -d build-py3
+cd build-py3
+../%configure \
+	PYTHON=%{__python3} \
+	--disable-silent-rules
+
+%{__make} -C cython \
+	top_builddir="${topdir}/build"
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install \
+
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # obsoleted by .pc
@@ -163,6 +197,18 @@ install -d $RPM_BUILD_ROOT%{_includedir}/plist/cython
 cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/plist.la \
 	%{?with_static_libs:$RPM_BUILD_ROOT%{py_sitedir}/plist.a}
+
+%if %{with python3}
+%{__make} -C build-py3/cython install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	top_builddir="$(pwd)/build"
+
+%py3_comp $RPM_BUILD_ROOT%{py3_sitedir}
+%py3_ocomp $RPM_BUILD_ROOT%{py3_sitedir}
+
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la \
+	%{?with_static_libs:$RPM_BUILD_ROOT%{py3_sitedir}/plist.a}
+%endif
 %endif
 
 %clean
@@ -227,6 +273,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python-plist
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/plist.so
+
+%if %{with cython}
+%files -n python3-plist
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py3_sitedir}/plist.so
+%endif
 
 %files -n python-plist-devel
 %defattr(644,root,root,755)
