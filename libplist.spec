@@ -10,15 +10,15 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	2.0.0
-Release:	5
+Version:	2.2.0
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-# Source0Download: http://www.libimobiledevice.org/
-Source0:	http://www.libimobiledevice.org/downloads/%{name}-%{version}.tar.bz2
-# Source0-md5:	16fb70d869f66e23cbe140109e78b650
-Patch0:		python-3.8.patch
-URL:		http://www.libimobiledevice.org/
+# Source0Download: https://libimobiledevice.org/
+Source0:	https://github.com/libimobiledevice/libplist/releases/download/%{version}/%{name}-%{version}.tar.bz2
+# Source0-md5:	63cc49401521662c94cd4107898c744c
+Patch0:		%{name}-sh.patch
+URL:		https://libimobiledevice.org/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
@@ -173,8 +173,6 @@ cd ..
 topdir=$(pwd)
 install -d build-py3
 cd build-py3
-export PYTHON_EXTRA_LIBS=$(python3-config --libs --embed)
-export PYTHON_LDFLAGS=$(python3-config --libs --embed)
 ../%configure \
 	PYTHON=%{__python3} \
 	--disable-silent-rules
@@ -193,10 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 %if %{with cython}
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
-%py_postclean
-
 install -d $RPM_BUILD_ROOT%{_includedir}/plist/cython
 cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/plist.la \
@@ -207,10 +201,7 @@ cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 	DESTDIR=$RPM_BUILD_ROOT \
 	top_builddir="$(pwd)/build"
 
-%py3_comp $RPM_BUILD_ROOT%{py3_sitedir}
-%py3_ocomp $RPM_BUILD_ROOT%{py3_sitedir}
-
-%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la \
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la
 	%{?with_static_libs:$RPM_BUILD_ROOT%{py3_sitedir}/plist.a}
 %endif
 %endif
@@ -226,32 +217,33 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
+%doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/plistutil
-%attr(755,root,root) %{_libdir}/libplist.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist.so.3
+%attr(755,root,root) %{_libdir}/libplist-2.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libplist-2.0.so.3
+%{_mandir}/man1/plistutil.1*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libplist.so
+%attr(755,root,root) %{_libdir}/libplist-2.0.so
 %dir %{_includedir}/plist
 %{_includedir}/plist/plist.h
-%{_pkgconfigdir}/libplist.pc
+%{_pkgconfigdir}/libplist-2.0.pc
 
 %if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libplist.a
+%{_libdir}/libplist-2.0.a
 %endif
 
 %files c++
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libplist++.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist++.so.3
+%attr(755,root,root) %{_libdir}/libplist++-2.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libplist++-2.0.so.3
 
 %files c++-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libplist++.so
+%attr(755,root,root) %{_libdir}/libplist++-2.0.so
 %{_includedir}/plist/Array.h
 %{_includedir}/plist/Boolean.h
 %{_includedir}/plist/Data.h
@@ -265,12 +257,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/plist/Structure.h
 %{_includedir}/plist/Uid.h
 %{_includedir}/plist/plist++.h
-%{_pkgconfigdir}/libplist++.pc
+%{_pkgconfigdir}/libplist++-2.0.pc
 
 %if %{with static_libs}
 %files c++-static
 %defattr(644,root,root,755)
-%{_libdir}/libplist++.a
+%{_libdir}/libplist++-2.0.a
 %endif
 
 %if %{with cython}
