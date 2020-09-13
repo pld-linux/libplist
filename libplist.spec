@@ -201,7 +201,7 @@ cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 	DESTDIR=$RPM_BUILD_ROOT \
 	top_builddir="$(pwd)/build"
 
-%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la \
 	%{?with_static_libs:$RPM_BUILD_ROOT%{py3_sitedir}/plist.a}
 %endif
 %endif
