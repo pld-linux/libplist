@@ -1,0 +1,13 @@
+--- libplist-2.3.0/cython/Makefile.am.orig	2022-02-07 12:20:41.000000000 +0100
++++ libplist-2.3.0/cython/Makefile.am	2023-11-26 09:11:13.719041230 +0100
+@@ -39,8 +39,8 @@ plist_la_CFLAGS = \
+ 	-Wno-implicit-function-declaration \
+ 	-fvisibility=default
+ 
+-plist_la_LDFLAGS = -module -avoid-version $(PYTHON_LIBS) $(AM_LDFLAGS) -shared -export-dynamic
+-plist_la_LIBADD = $(top_builddir)/src/libplist-2.0.la
++plist_la_LDFLAGS = -module -avoid-version $(AM_LDFLAGS) -shared -export-dynamic
++plist_la_LIBADD = $(top_builddir)/src/libplist-2.0.la $(PYTHON_LIBS)
+ 
+ if WIN32
+ plist_la_LDFLAGS += -no-undefined

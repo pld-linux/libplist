@@ -18,6 +18,7 @@ Group:		Libraries
 Source0:	https://github.com/libimobiledevice/libplist/releases/download/%{version}/%{name}-%{version}.tar.bz2
 # Source0-md5:	d6e2b9f713f18ae0a0f3353c03315bfd
 Patch0:		%{name}-sh.patch
+Patch1:		%{name}-link.patch
 URL:		https://libimobiledevice.org/
 BuildRequires:	autoconf >= 2.68
 BuildRequires:	automake
@@ -148,6 +149,7 @@ Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 touch cython/*.py[xh]
 
