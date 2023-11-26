@@ -10,19 +10,19 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	2.2.0
-Release:	5
+Version:	2.3.0
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: https://libimobiledevice.org/
 Source0:	https://github.com/libimobiledevice/libplist/releases/download/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	63cc49401521662c94cd4107898c744c
+# Source0-md5:	d6e2b9f713f18ae0a0f3353c03315bfd
 Patch0:		%{name}-sh.patch
 URL:		https://libimobiledevice.org/
-BuildRequires:	autoconf >= 2.64
+BuildRequires:	autoconf >= 2.68
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.600
 %if %{with cython}
@@ -195,16 +195,14 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with cython}
 install -d $RPM_BUILD_ROOT%{_includedir}/plist/cython
 cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
-%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/plist.la \
-	%{?with_static_libs:$RPM_BUILD_ROOT%{py_sitedir}/plist.a}
+%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/plist.la
 
 %if %{with python3}
 %{__make} -C build-py3/cython install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	top_builddir="$(pwd)/build"
 
-%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la \
-	%{?with_static_libs:$RPM_BUILD_ROOT%{py3_sitedir}/plist.a}
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la
 %endif
 %endif
 
@@ -222,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/plistutil
 %attr(755,root,root) %{_libdir}/libplist-2.0.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist-2.0.so.3
+%attr(755,root,root) %ghost %{_libdir}/libplist-2.0.so.4
 %{_mandir}/man1/plistutil.1*
 
 %files devel
@@ -241,7 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 %files c++
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libplist++-2.0.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libplist++-2.0.so.3
+%attr(755,root,root) %ghost %{_libdir}/libplist++-2.0.so.4
 
 %files c++-devel
 %defattr(644,root,root,755)
