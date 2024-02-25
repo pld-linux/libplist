@@ -1,6 +1,6 @@
---- libplist-2.3.0/configure.ac.orig	2023-04-21 14:07:43.000000000 +0200
-+++ libplist-2.3.0/configure.ac	2023-11-25 21:12:09.871666005 +0100
-@@ -179,7 +179,7 @@ esac],
+--- libplist-2.4.0/configure.ac.orig	2024-02-21 01:49:54.000000000 +0100
++++ libplist-2.4.0/configure.ac	2024-02-25 08:40:35.228846020 +0100
+@@ -189,16 +189,16 @@ esac],
  
  if (test "x$debug" = "xyes"); then
         AC_DEFINE(DEBUG, 1, [Define if debug message output code should be built.])
@@ -8,8 +8,19 @@
 +       GLOBAL_CFLAGS="$GLOBAL_CFLAGS -g"
  fi
  
+ if test "x$enable_static" = "xyes" -a "x$enable_shared" = "xno"; then
+-	GLOBAL_CFLAGS+=" -DLIBPLIST_STATIC"
++	GLOBAL_CFLAGS="$GLOBAL_CFLAGS -DLIBPLIST_STATIC"
+ fi
+ 
+ GLOBAL_CXXFLAGS=$GLOBAL_CFLAGS
+ AS_COMPILER_FLAG([-fvisibility=hidden], [
+-  GLOBAL_CFLAGS+=" -fvisibility=hidden"
++  GLOBAL_CFLAGS="$GLOBAL_CFLAGS -fvisibility=hidden"
+ ], [])
+ 
  AC_SUBST(GLOBAL_CFLAGS)
-@@ -211,23 +211,23 @@ fi
+@@ -237,23 +237,23 @@ fi
  
  if test "x$build_sanitizers" = "xyes"; then
      AS_COMPILER_FLAG([-fsanitize=address], [
@@ -38,7 +49,7 @@
      fi
  
      if test -z "$SANITIZER_FLAGS"; then
-@@ -240,13 +240,13 @@ if test "x$build_sanitizers" = "xyes"; t
+@@ -266,13 +266,13 @@ if test "x$build_sanitizers" = "xyes"; t
              if test -z "$SAN_COV_FLAGS"; then
                  SAN_COV_FLAGS="$COV_CHECK"
              else
@@ -55,7 +66,7 @@
      else
          AC_MSG_WARN([No sanitizer coverage supported by compiler])
      fi
-@@ -254,20 +254,20 @@ if test "x$build_sanitizers" = "xyes"; t
+@@ -280,20 +280,20 @@ if test "x$build_sanitizers" = "xyes"; t
      CFLAGS="-O1"
  
      AS_COMPILER_FLAG([-fno-omit-frame-pointer], [
@@ -81,7 +92,7 @@
      CXXFLAGS="$CFLAGS -std=c++11"
  fi
  
-@@ -281,9 +281,9 @@ if test "x$build_fuzzers" = "xyes"; then
+@@ -307,9 +307,9 @@ if test "x$build_fuzzers" = "xyes"; then
          ;;
      esac
  
