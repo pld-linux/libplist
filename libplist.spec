@@ -11,7 +11,7 @@ Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	2.4.0
-Release:	
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: https://libimobiledevice.org/
@@ -148,8 +148,8 @@ Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
 
 touch cython/*.py[xh]
 
