@@ -163,7 +163,8 @@ install -d build
 cd build
 %define	configuredir	..
 %configure \
-	ac_cv_path_CYTHON=/usr/bin/cython \
+	CYTHON=/usr/bin/cython2 \
+	PYTHON=%{__python} \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
 	%{!?with_cython:--without-cython}
@@ -179,7 +180,7 @@ install -d build-py3
 cd build-py3
 %configure \
 	PYTHON=%{__python3} \
-	ac_cv_path_CYTHON=/usr/bin/cython3 \
+	CYTHON=/usr/bin/cython3 \
 	--disable-silent-rules
 
 %{__make} -C cython \
