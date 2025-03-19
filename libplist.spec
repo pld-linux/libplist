@@ -25,7 +25,7 @@ BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.600
+BuildRequires:	rpmbuild(macros) >= 2.043
 %if %{with cython}
 BuildRequires:	python-Cython >= 0.17.0
 BuildRequires:	python-devel >= 1:2.3
@@ -161,7 +161,8 @@ touch cython/*.py[xh]
 %{__automake}
 install -d build
 cd build
-../%configure \
+%define	configuredir	..
+%configure \
 	ac_cv_path_CYTHON=/usr/bin/cython \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
@@ -176,7 +177,7 @@ cd ..
 topdir=$(pwd)
 install -d build-py3
 cd build-py3
-../%configure \
+%configure \
 	PYTHON=%{__python3} \
 	ac_cv_path_CYTHON=/usr/bin/cython3 \
 	--disable-silent-rules
