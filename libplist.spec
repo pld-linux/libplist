@@ -11,7 +11,7 @@ Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
 Version:	2.4.0
-Release:	3
+Release:	4
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: https://libimobiledevice.org/
