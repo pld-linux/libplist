@@ -6,13 +6,13 @@
 Summary:	Library for manipulating Apple Property Lists
 Summary(pl.UTF-8):	Biblioteka do manipulowania Apple Property Lists
 Name:		libplist
-Version:	2.7.0
+Version:	2.8.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 # Source0Download: https://github.com/libimobiledevice/libplist/releases
 Source0:	https://github.com/libimobiledevice/libplist/releases/download/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	cca9faafe9c7bbec75287bc2d8121fec
+# Source0-md5:	77323024d8855f3361b5ff7e2b2639d6
 Patch0:		%{name}-sh.patch
 Patch1:		%{name}-link.patch
 URL:		https://libimobiledevice.org/
@@ -158,8 +158,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 %if %{with cython}
-#install -d $RPM_BUILD_ROOT%{_includedir}/plist/cython
-#cp -p cython/plist.pxd $RPM_BUILD_ROOT%{_includedir}/plist/cython/plist.pxd
 %{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/plist.la
 %endif
 
@@ -175,9 +173,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README.md
+%attr(755,root,root) %{_bindir}/plist2json
 %attr(755,root,root) %{_bindir}/plistutil
 %{_libdir}/libplist-2.0.so.*.*.*
-%ghost %{_libdir}/libplist-2.0.so.4
+%ghost %{_libdir}/libplist-2.0.so.12
 %{_mandir}/man1/plistutil.1*
 
 %files devel
@@ -196,7 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %files c++
 %defattr(644,root,root,755)
 %{_libdir}/libplist++-2.0.so.*.*.*
-%ghost %{_libdir}/libplist++-2.0.so.4
+%ghost %{_libdir}/libplist++-2.0.so.12
 
 %files c++-devel
 %defattr(644,root,root,755)
