@@ -42,7 +42,7 @@ XML.
 Summary:	Header file for libplist library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki libplist
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 Header file for libplist library.
@@ -54,7 +54,7 @@ Plik nagłówkowy biblioteki libplist.
 Summary:	Static libplist library
 Summary(pl.UTF-8):	Statyczna biblioteka libplist
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Static libplist library.
@@ -66,7 +66,7 @@ Statyczna biblioteka libplist.
 Summary:	C++ binding for libplist library
 Summary(pl.UTF-8):	Wiązanie C++ do biblioteki libplist
 Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description c++
 C++ binding for libplist library.
@@ -78,9 +78,9 @@ Wiązanie C++ do biblioteki libplist.
 Summary:	Header files for libplist++ library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libplist++
 Group:		Development/Libraries
-Requires:	%{name}-c++ = %{version}-%{release}
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	libstdc++-devel
+Requires:	%{name}-c++%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Requires:	libstdc++-devel%{?_isa}
 
 %description c++-devel
 Header files for libplist++ library.
@@ -92,7 +92,7 @@ Pliki nagłówkowe biblioteki libplist++.
 Summary:	Static libplist++ library
 Summary(pl.UTF-8):	Statyczna biblioteka libplist++
 Group:		Development/Libraries
-Requires:	%{name}-c++-devel = %{version}-%{release}
+Requires:	%{name}-c++-devel%{?_isa} = %{version}-%{release}
 
 %description c++-static
 Static libplist++ library.
@@ -104,7 +104,7 @@ Statyczna biblioteka libplist++.
 Summary:	Python 3 bindings for libplist
 Summary(pl.UTF-8):	Wiązania libplist dla Pythona 3
 Group:		Development/Languages/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python3-plist
 Python 3 bindings for libplist.
@@ -116,8 +116,8 @@ Wiązania libplist dla Pythona 3.
 Summary:	Cython header file for Python libplist binding
 Summary(pl.UTF-8):	Plik nagłówkowy Cythona dla wiązania Pythona do biblioteki libplist
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	python-Cython >= 0.17.0
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Requires:	python3-Cython >= 3.0.0
 
 %description -n python-plist-devel
 Cython header file for Python libplist binding.
@@ -146,7 +146,6 @@ touch cython/*.py[xh]
 	%{!?with_cython:--without-cython}
 
 %{__make}
-# -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
